@@ -15,10 +15,11 @@ router.get('/', (req, res, next) => {
 
 /* ========== GET/READ A SINGLE ITEM ========== */
 router.get('/:id', (req, res, next) => {
-
-  console.log('Get a Note');
-  res.json({ id: 1, title: 'Temp 1' });
-
+  Note
+  .findById(req.params.id)
+  .then(note => {
+    res.json(note)
+  })
 });
 
 /* ========== POST/CREATE AN ITEM ========== */
