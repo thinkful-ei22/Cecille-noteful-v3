@@ -13,8 +13,8 @@ mongoose.connect(MONGODB_URI)
     if (searchTerm) {
       filter.title = { $regex: searchTerm };
     }
-    
-    return Note.find(filter).sort({ updatedAt: 'desc' });
+    //return Note.findById('000000000000000000000003');
+    //return Note.find(filter).sort({ updatedAt: 'desc' });
   })
   .then(results => {
     console.log(results);
