@@ -5,7 +5,7 @@ const Note = require('../models/note');
 
 console.log(MONGODB_URI);
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(MONGODB_URI)
   .then(() => {
     const searchTerm = 'Lady Gaga';
     let filter = {};
