@@ -24,10 +24,12 @@ router.get('/:id', (req, res, next) => {
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post('/', (req, res, next) => {
-
-  console.log('Create a Note');
-  res.location('path/to/new/document').status(201).json({ id: 2, title: 'Temp 2' });
-
+  Note
+    .create({
+      title: req.body.title,
+      content: req.body.content
+    })
+    .then(newNote => res.json(newNote))
 });
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
