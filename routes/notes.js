@@ -4,16 +4,13 @@ const express = require('express');
 
 const router = express.Router();
 
+const Note = require('../models/note');
+
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
-
-  console.log('Get All Notes');
-  res.json([
-    { id: 1, title: 'Temp 1' },
-    { id: 2, title: 'Temp 2' },
-    { id: 3, title: 'Temp 3' }
-  ]);
-
+  Note
+  .find()
+  .then(notes => res.json(notes))
 });
 
 /* ========== GET/READ A SINGLE ITEM ========== */
