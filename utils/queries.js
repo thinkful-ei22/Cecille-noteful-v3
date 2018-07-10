@@ -13,8 +13,12 @@ mongoose.connect(MONGODB_URI)
     if (searchTerm) {
       filter.title = { $regex: searchTerm };
     }
-    //return Note.findById('000000000000000000000003');
+    // return Note.findById('5b450cfeabfbfc3356ad0017');
     //return Note.find(filter).sort({ updatedAt: 'desc' });
+    return Note.create({
+      title: 'My Shiba Miko',
+      content: 'Has a Curly Tail'
+    })
   })
   .then(results => {
     console.log(results);
