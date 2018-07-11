@@ -11,6 +11,9 @@ router.get('/', (req, res, next) => {
   Note
   .find()
   .then(notes => res.status(200).json(notes))
+  .catch(err => {
+    next(err);
+  })
 });
 
 /* ========== GET/READ A SINGLE ITEM ========== */
@@ -19,6 +22,9 @@ router.get('/:id', (req, res, next) => {
   .findById(req.params.id)
   .then(note => {
     res.status(200).json(note)
+  })
+  .catch(err => {
+    next(err);
   })
 });
 
@@ -30,6 +36,9 @@ router.post('/', (req, res, next) => {
       content: req.body.content
     })
     .then(newNote => res.status(201).json(newNote))
+    .catch(err => {
+      next(err);
+    })
 });
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
@@ -58,6 +67,9 @@ router.put('/:id', (req, res, next) => {
       { new: true }
     )
     .then(updatedNote => res.status(204).json(updatedNote))
+    .catch(err => {
+      next(err);
+    })
 });
 
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
