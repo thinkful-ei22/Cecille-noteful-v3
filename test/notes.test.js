@@ -38,11 +38,12 @@ describe('Hook Functions', function() {
         .then(function (_res) {
           res = _res;
           expect(res).to.have.status(200);
-          expect(res.body.notes).to.have.length.of.at.least(1);
+          expect(res.body).to.have.length.of.at.least(1);
           return Note.count();
         })
         .then(function(count) {
-          expect(res.body.notes).to.have.length.of(count);
+          console.log(count)
+          expect(res.body).to.have.length(count);
         })
     })
   })
@@ -106,5 +107,54 @@ describe('Hook Functions', function() {
         });
     });
   });
+
+  describe('PUT /api/notes/:id', function() {
+    it('should update a note when provided an id', function () {
+      const updateData = {
+        title: "My Shiba Miko",
+        content: "Has a Curly Tail"
+      };
+
+      return Note
+        .findOne()
+        .then(function(note) {
+          updateData.id = note.id;
+
+          return chai.request(app)
+            .put(`/api/notes/${note.id}`)
+            .send(updateData);
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204);
+
+          return Note.findById(updateData.id)
+        })
+        .then(function(note) {
+          expect(note.title).to.equal(updateData.title)
+          expect(note.content).to.equal(updateData.content)
+        })
+    })
+  })
+
+  describe('DELETE /api/notes', function () {
+    it('should delete a note when provided an id', function () {
+      let note;
+
+      return Note
+        .findOne()
+        .then(function(_note) {
+          note = _note;
+          return chai.request(app)
+            .delete(`/api/notes/${note.id}`);
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204);
+          return Note.findById(note.id);
+        })
+        .then(function(_note) {
+          expect(_note).to.be.null;
+        })
+    })
+  })
 
 });
