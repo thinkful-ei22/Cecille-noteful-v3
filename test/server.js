@@ -10,6 +10,8 @@ const app = require('../server');
 
 const expect = chai.expect;
 
+const Note = require('../models/note');
+
 chai.use(chaiHttp);
 
 describe('Reality Check', () => {
