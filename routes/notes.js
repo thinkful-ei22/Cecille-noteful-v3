@@ -10,7 +10,7 @@ const Note = require('../models/note');
 router.get('/', (req, res, next) => {
   Note
   .find()
-  .then(notes => res.json(notes))
+  .then(notes => res.status(200).json(notes))
 });
 
 /* ========== GET/READ A SINGLE ITEM ========== */
@@ -18,7 +18,7 @@ router.get('/:id', (req, res, next) => {
   Note
   .findById(req.params.id)
   .then(note => {
-    res.json(note)
+    res.status(200).json(note)
   })
 });
 
@@ -29,7 +29,7 @@ router.post('/', (req, res, next) => {
       title: req.body.title,
       content: req.body.content
     })
-    .then(newNote => res.json(newNote))
+    .then(newNote => res.status(201).json(newNote))
 });
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
@@ -57,14 +57,14 @@ router.put('/:id', (req, res, next) => {
       { $set: toUpdate },
       { new: true }
     )
-    .then(updatedNote => res.json(updatedNote))
+    .then(updatedNote => res.status(204).json(updatedNote))
 });
 
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
 router.delete('/:id', (req, res, next) => {
   Note
   .findByIdAndRemove(req.params.id)
-  .then(deletedNote => res.json(deletedNote).end())
+  .then(deletedNote => res.status(204).json(deletedNote).end())
 });
 
 module.exports = router;
