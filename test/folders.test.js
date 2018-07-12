@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const app = require('../server');
 const { TEST_MONGODB_URI } = require('../config');
 
-const Note = require('../models/note');
+// const Note = require('../models/note');
 const Folder = require('../models/folder');
 
-const seedNotes = require('../db/seed/notes');
+// const seedNotes = require('../db/seed/notes');
 const seedFolders = require('../db/seed/folders');
 
 const expect = chai.expect;
@@ -21,7 +21,7 @@ describe('Hook Functions', function() {
   });
 
   beforeEach(function () {
-    return Note.insertMany(seedNotes);
+    return Folder.insertMany(seedFolders);
   });
 
   afterEach(function () {
