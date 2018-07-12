@@ -16,4 +16,24 @@ router.get('/', (req, res, next) => {
   })
 });
 
+/* ========== GET/READ A SINGLE ITEM ========== */
+router.get('/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   const err = new Error('Id is not valid!');
+  //   err.status = 400;
+  //   return next(err);
+  // }
+
+  Folder
+  .findById(id)
+  .then(folder => {
+    res.status(200).json(folder)
+  })
+  .catch(err => {
+    next(err);
+  })
+});
+
 module.exports = router;
