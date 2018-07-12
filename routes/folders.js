@@ -36,4 +36,17 @@ router.get('/:id', (req, res, next) => {
   })
 });
 
+/* ========== POST/CREATE AN ITEM ========== */
+router.post('/', (req, res, next) => {
+
+  Folder
+    .create({
+      name: req.body.name
+    })
+    .then(newFolder => res.status(201).json(newFolder))
+    .catch(err => {
+      next(err);
+    })
+});
+
 module.exports = router;
