@@ -42,7 +42,6 @@ describe('Hook Functions', function() {
           return Note.count();
         })
         .then(function(count) {
-          console.log(count)
           expect(res.body).to.have.length(count);
         })
     })
