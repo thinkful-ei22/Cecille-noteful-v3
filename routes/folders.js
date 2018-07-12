@@ -38,6 +38,13 @@ router.get('/:id', (req, res, next) => {
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post('/', (req, res, next) => {
+  const { name } = req.body;
+
+  // if(!mongoose.Types.String.isValid(name)) {
+  //   const err = new Error('Name is not valid!');
+  //   err.status = 400;
+  //   return next(err);
+  // }
 
   Folder
     .create({
