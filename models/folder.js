@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 const folderSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  folderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Folder' }
+  name: { type: String, required: true, unique: true }
 });
 
 folderSchema.set('timestamps', true);
