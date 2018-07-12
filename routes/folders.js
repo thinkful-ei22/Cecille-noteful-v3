@@ -56,6 +56,35 @@ router.post('/', (req, res, next) => {
     })
 });
 
+/* ========== PUT/UPDATE A SINGLE ITEM ========== */
+router.put('/:id', (req, res, next) => {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    const message = (
+      `Request path id (${req.params.id}) and request body id ` +
+      `(${req.body.id}) must match`);
+    console.error(message);
+
+    return res.status(400).json({message: message});
+  }
+
+  const { name } = req.body;
+  const toUpdate = { name: null };
+
+  if (name) {
+    toUpdate.name = name;
+  }
+
+  Folder
+    .findByIdAndUpdate(req.params.id,
+      { $set: toUpdate },
+      { new: true }
+    )
+    .then(updatedFolder => res.status(204).json(updatedFolder))
+    .catch(err => {
+      next(err);
+    })
+});
+
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
 router.delete('/:id', (req, res, next) => {
   Folder
