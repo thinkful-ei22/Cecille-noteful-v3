@@ -130,4 +130,25 @@ describe('Hook Functions', function() {
   })
 })
 
+describe('DELETE /api/folders', function () {
+  it('should delete a folder when provided an id', function () {
+    let folder;
+
+    return Folder
+      .findOne()
+      .then(function(_folder) {
+        folder = _folder;
+        return chai.request(app)
+          .delete(`/api/folders/${folder.id}`);
+      })
+      .then(function(res) {
+        expect(res).to.have.status(204);
+        return Folder.findById(folder.id);
+      })
+      .then(function(_folder) {
+        expect(_folder).to.be.null;
+      })
+  })
+})
+
 });
