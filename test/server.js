@@ -11,6 +11,7 @@ const app = require('../server');
 const expect = chai.expect;
 
 const Note = require('../models/note');
+const Folder = require('../models/folder');
 
 chai.use(chaiHttp);
 
