@@ -5,10 +5,8 @@ const mongoose = require('mongoose');
 const app = require('../server');
 const { TEST_MONGODB_URI } = require('../config');
 
-// const Note = require('../models/note');
 const Folder = require('../models/folder');
 
-// const seedNotes = require('../db/seed/notes');
 const seedFolders = require('../db/seed/folders');
 
 const expect = chai.expect;
@@ -31,5 +29,22 @@ describe('Hook Functions', function() {
   after(function () {
     return mongoose.disconnect();
   });
+
+  describe('GET /api/folders', function () {
+    it('should return all folders', function () {
+      let res;
+      return chai.request(app)
+        .get(`/api/folders`)
+        .then(function (_res) {
+          res = _res;
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.length.of.at.least(1);
+          return Folder.count();
+        })
+        .then(function(count) {
+          expect(res.body).to.have.length(count);
+        })
+    })
+  })
 
 });
