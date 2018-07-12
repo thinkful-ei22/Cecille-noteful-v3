@@ -104,4 +104,30 @@ describe('Hook Functions', function() {
     });
   });
 
+  describe('PUT /api/folders/:id', function() {
+  it('should update a folder when provided an id', function () {
+    const updateData = {
+      name: "Travel"
+    };
+
+    return Folder
+      .findOne()
+      .then(function(folder) {
+        updateData.id = folder.id;
+
+        return chai.request(app)
+          .put(`/api/folders/${folder.id}`)
+          .send(updateData);
+      })
+      .then(function(res) {
+        expect(res).to.have.status(204);
+
+        return Folder.findById(updateData.id)
+      })
+      .then(function(folder) {
+        expect(folder.name).to.equal(updateData.name)
+      })
+  })
+})
+
 });
