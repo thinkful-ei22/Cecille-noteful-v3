@@ -73,4 +73,35 @@ describe('Hook Functions', function() {
     });
   })
 
+  describe('POST /api/folders', function () {
+    it('should create and return a new folder when provided valid data', function () {
+      const newItem = {
+        'name': 'Travel'
+      };
+
+      let res;
+      // 1) First, call the API
+      return chai.request(app)
+        .post('/api/folders')
+        .send(newItem)
+        .then(function (_res) {
+          res = _res;
+          expect(res).to.have.status(201);
+          //expect(res).to.have.header('location');
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.body).to.have.keys('id', 'name', 'createdAt', 'updatedAt');
+          // 2) then call the database
+          return Folder.findById(res.body.id);
+        })
+        // 3) then compare the API response to the database results
+        .then(data => {
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.name).to.equal(data.name);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+        });
+    });
+  });
+
 });
