@@ -5,7 +5,7 @@ const Note = require('../models/note');
 const Folder = require('../models/folder');
 
 const seedNotes = require('../db/seed/notes');
-const seedFolders = require('../db/seed/folder')
+const seedFolders = require('../db/seed/folders')
 
 mongoose.connect(MONGODB_URI)
   .then(() => mongoose.connection.db.dropDatabase())
