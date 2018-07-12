@@ -56,4 +56,14 @@ router.post('/', (req, res, next) => {
     })
 });
 
+/* ========== DELETE/REMOVE A SINGLE ITEM ========== */
+router.delete('/:id', (req, res, next) => {
+  Folder
+  .findByIdAndRemove(req.params.id)
+  .then(deletedFolder => res.status(204).json(deletedFolder).end())
+  .catch(err => {
+    next(err);
+  })
+})
+
 module.exports = router;
