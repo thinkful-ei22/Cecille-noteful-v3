@@ -52,8 +52,12 @@ router.post('/', (req, res, next) => {
     })
     .then(newFolder => res.status(201).json(newFolder))
     .catch(err => {
+      if (err.code === 11000) {
+        err = new Error('The folder name already exists');
+        err.status = 400;
+      }
       next(err);
-    })
+    });
 });
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
