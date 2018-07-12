@@ -9,7 +9,13 @@ const seedFolders = require('../db/seed/folder')
 
 mongoose.connect(MONGODB_URI)
   .then(() => mongoose.connection.db.dropDatabase())
-  .then(() => Note.insertMany(seedNotes))
+  .then(() => {
+    return Promise.all([
+      Note.insertMany(seedNotes),
+      Folder.insertMany(seedFolders),
+      Folder.createIndexes()
+    ]);            
+  })
   .then(results => {
     console.info(`Inserted ${results.length} Notes`);
   })
