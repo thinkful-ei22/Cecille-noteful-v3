@@ -124,7 +124,7 @@ describe('Hook Functions', function() {
 
         return Tag.findById(updateData.id)
       })
-      .then(function(folder) {
+      .then(function(tag) {
         expect(tag.name).to.equal(updateData.name)
       })
   })
