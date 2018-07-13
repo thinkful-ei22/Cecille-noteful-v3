@@ -39,6 +39,30 @@ router.get('/:id', (req, res, next) => {
   })
 });
 
+/* ========== POST/CREATE AN ITEM ========== */
+router.post('/', (req, res, next) => {
+  const { name } = req.body;
+
+  if (!name) {
+    const err = new Error('Missing `name` in request body');
+    err.status = 400;
+    return next(err);
+  }
+
+  Tag
+    .create({
+      name: name
+    })
+    .then(newTag => res.status(201).json(newTag))
+    .catch(err => {
+      if (err.code === 11000) {
+        err = new Error('The tag name already exists');
+        err.status = 400;
+      }
+      next(err);
+    });
+});
+
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/:id', (req, res, next) => {
   const { name, id } = req.body;
