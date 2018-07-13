@@ -64,20 +64,17 @@ router.post('/', (req, res, next) => {
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/:id', (req, res, next) => {
-  const { name } = req.body;
+  const { name, id } = req.body;
   if (!name) {
     const err = new Error('Missing `name` in request body');
     err.status = 400;
     return next(err);
   }
 
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id ` +
-      `(${req.body.id}) must match`);
-    console.error(message);
-
-    return res.status(400).json({message: message});
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    const err = new Error('ID is not valid!');
+    err.status = 400;
+    return next(err);
   }
 
   const toUpdate = { name: null };
