@@ -47,4 +47,30 @@ describe('Hook Functions', function() {
     })
   })
 
+  describe('GET /api/tags/:id', function () {
+    it('should return correct tag', function () {
+      let data;
+      // 1) First, call the database
+      return Tag.findOne()
+        .then(_data => {
+          data = _data;
+          // 2) then call the API with the ID
+          return chai.request(app).get(`/api/tags/${data.id}`);
+        })
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.keys('name', 'id', 'createdAt', 'updatedAt');
+
+          // 3) then compare database results to API response
+          expect(res.body.id).to.equal(data.id);
+          expect(res.body.name).to.equal(data.name);
+          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+        });
+    });
+  })
+
 });
