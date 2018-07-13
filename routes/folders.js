@@ -64,6 +64,13 @@ router.post('/', (req, res, next) => {
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/:id', (req, res, next) => {
+  const { name } = req.body;
+  if (!name) {
+    const err = new Error('Missing `name` in request body');
+    err.status = 400;
+    return next(err);
+  }
+
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     const message = (
       `Request path id (${req.params.id}) and request body id ` +
@@ -73,7 +80,6 @@ router.put('/:id', (req, res, next) => {
     return res.status(400).json({message: message});
   }
 
-  const { name } = req.body;
   const toUpdate = { name: null };
 
   if (name) {
