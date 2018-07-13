@@ -97,7 +97,7 @@ describe('Hook Functions', function() {
         .then(function (_res) {
           res = _res;
           expect(res).to.have.status(201);
-          //expect(res).to.have.header('location');
+          expect(res).to.have.header('location');
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.keys('id', 'title', 'content', 'createdAt', 'updatedAt');
