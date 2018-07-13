@@ -54,7 +54,7 @@ router.get('/:id', (req, res, next) => {
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post('/', (req, res, next) => {
-  const { title, content, folderId } = req.body;
+  const { title, content, folderId, tags } = req.body;
 
   if (!title) {
     const err = new Error('Missing `title` in request body');
@@ -68,7 +68,15 @@ router.post('/', (req, res, next) => {
     return next(err);
   }
 
-  const newNote = { title, content, folderId };
+  // if (tagId && !mongoose.Types.ObjectId.isValid(tagId)) {
+  //   const err = new Error('tagId is not valid!');
+  //   err.status = 400;
+  //   return next(err);
+  // }
+
+  const newNote = { title, content, folderId, tags };
+  console.log(tags);
+  console.log(newNote);
 
   Note
     .create(newNote)
