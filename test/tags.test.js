@@ -104,4 +104,30 @@ describe('Hook Functions', function() {
     });
   });
 
+  describe('PUT /api/tags/:id', function() {
+  it('should update tag name when provided an id', function () {
+    const updateData = {
+      name: "Unknown"
+    };
+
+    return Tag
+      .findOne()
+      .then(function(tag) {
+        updateData.id = tag.id;
+
+        return chai.request(app)
+          .put(`/api/tags/${tag.id}`)
+          .send(updateData);
+      })
+      .then(function(res) {
+        expect(res).to.have.status(204);
+
+        return Tag.findById(updateData.id)
+      })
+      .then(function(folder) {
+        expect(tag.name).to.equal(updateData.name)
+      })
+  })
+})
+
 });
