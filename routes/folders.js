@@ -6,6 +6,8 @@ const router = express.Router();
 
 const Folder = require('../models/folder');
 
+const mongoose = require('mongoose');
+
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
   Folder
