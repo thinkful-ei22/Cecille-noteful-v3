@@ -42,15 +42,15 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const { name } = req.body;
 
-  // if(!mongoose.Types.String.isValid(name)) {
-  //   const err = new Error('Name is not valid!');
-  //   err.status = 400;
-  //   return next(err);
-  // }
+  if (!name) {
+    const err = new Error('Missing `name` in request body');
+    err.status = 400;
+    return next(err);
+  }
 
   Folder
     .create({
-      name: req.body.name
+      name: name
     })
     .then(newFolder => res.status(201).json(newFolder))
     .catch(err => {
