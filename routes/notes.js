@@ -8,12 +8,26 @@ const Note = require('../models/note');
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
-  Note
-  .find()
-  .then(notes => res.status(200).json(notes))
-  .catch(err => {
-    next(err);
-  })
+  const { searchTerm, folderId } = req.query;
+
+  let filter = {};
+
+  if (searchTerm) {
+    filter.title = { $regex: searchTerm, $options: 'i' };
+  }
+
+  if (folderId) {
+    filter.folderId = folderId;
+  }
+
+  Note.find(filter)
+    .sort({ updatedAt: 'desc' })
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 /* ========== GET/READ A SINGLE ITEM ========== */
