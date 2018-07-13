@@ -97,4 +97,24 @@ router.put('/:id', (req, res, next) => {
     })
 });
 
+/* ========== DELETE/REMOVE A SINGLE ITEM ========== */
+router.delete('/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  Tag
+  .findByIdAndRemove(id)
+  .then(() => {
+    return Note.updateMany(
+      { tags: id },
+      { $pull: {tags: id} }
+    );
+  })
+  .then(() => {
+    res.status(204).end();
+  })
+  .catch(err => {
+    next(err);
+  })
+})
+
 module.exports = router;
