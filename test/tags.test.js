@@ -130,4 +130,26 @@ describe('Hook Functions', function() {
   })
 })
 
+
+  describe('DELETE /api/tags', function () {
+    it('should delete a tag when provided an id', function () {
+      let tag;
+
+      return Tag
+        .findOne()
+        .then(function(_tag) {
+          tag = _tag;
+          return chai.request(app)
+            .delete(`/api/tags/${tag.id}`);
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204);
+          return Tag.findById(tag.id);
+        })
+        .then(function(_tag) {
+          expect(_tag).to.be.null;
+        })
+    })
+  })
+
 });
