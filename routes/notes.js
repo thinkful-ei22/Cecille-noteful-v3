@@ -85,6 +85,14 @@ router.put('/:id', (req, res, next) => {
     return res.status(400).json({message: message});
   }
 
+  const { folderId } = req.body;
+
+  if (folderId && !mongoose.Types.ObjectId.isValid(folderId)) {
+    const err = new Error('folderId is not valid!');
+    err.status = 400;
+    return next(err);
+  }
+
   const toUpdate = {};
   const updateableFields = ['title', 'content', 'folderId'];
 
