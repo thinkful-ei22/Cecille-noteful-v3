@@ -6,6 +6,8 @@ const router = express.Router();
 
 const Tag = require('../models/tags');
 
+const Note = require('../models/note');
+
 const mongoose = require('mongoose');
 
 /* ========== GET/READ ALL ITEMS ========== */
