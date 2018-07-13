@@ -43,6 +43,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   Note
   .findById(req.params.id)
+  .populate('tags')
   .then(note => {
     res.status(200).json(note)
   })
