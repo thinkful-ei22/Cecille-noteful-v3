@@ -25,14 +25,11 @@ router.get('/', (req, res, next) => {
   }
 
   if (tagId) {
-    console.log('Made it to if tagId block')
-    filter.tag =
-      Tag
-        .findById(tag)
-        .populate('Tag');
+    filter.tag = tagId;
   }
 
   Note.find(filter)
+    .populate('tags')
     .sort({ updatedAt: 'desc' })
     .then(results => {
       res.json(results);
