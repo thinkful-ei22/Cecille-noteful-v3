@@ -30,4 +30,21 @@ describe('Hook Functions', function() {
     return mongoose.disconnect();
   });
 
+  describe('GET /api/tags', function () {
+    it('should return all tags', function () {
+      let res;
+      return chai.request(app)
+        .get(`/api/tags`)
+        .then(function (_res) {
+          res = _res;
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.length.of.at.least(1);
+          return Tag.count();
+        })
+        .then(function(count) {
+          expect(res.body).to.have.length(count);
+        })
+    })
+  })
+
 });
