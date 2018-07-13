@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
-  const { searchTerm, folderId } = req.query;
+  const { searchTerm, folderId, tagId } = req.query;
 
   let filter = {};
 
@@ -22,6 +22,14 @@ router.get('/', (req, res, next) => {
 
   if (folderId) {
     filter.folderId = folderId;
+  }
+
+  if (tagId) {
+    console.log('Made it to if tagId block')
+    filter.tag =
+      Tag
+        .findById(tag)
+        .populate('Tag');
   }
 
   Note.find(filter)
