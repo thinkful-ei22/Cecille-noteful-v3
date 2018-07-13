@@ -6,6 +6,8 @@ const router = express.Router();
 
 const Note = require('../models/note');
 
+const mongoose = require('mongoose');
+
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
   const { searchTerm, folderId } = req.query;
@@ -44,13 +46,29 @@ router.get('/:id', (req, res, next) => {
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post('/', (req, res, next) => {
+  const { title, content, folderId } = req.body;
+
+  if (!title) {
+    const err = new Error('Missing `title` in request body');
+    err.status = 400;
+    return next(err);
+  }
+
+  if (folderId && !mongoose.Types.ObjectId.isValid(folderId)) {
+    const err = new Error('folderId is not valid!');
+    err.status = 400;
+    return next(err);
+  }
+
+  const newNote = { title, content, folderId };
+
   Note
-    .create({
-      title: req.body.title,
-      content: req.body.content,
-      folderId: req.body.folderId
+    .create(newNote)
+    .then(note => {
+      res.location(`${req.originalUrl}/${note.id}`)
+      .status(201)
+      .json(note)
     })
-    .then(newNote => res.status(201).json(newNote))
     .catch(err => {
       next(err);
     })
