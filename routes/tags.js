@@ -39,4 +39,36 @@ router.get('/:id', (req, res, next) => {
   })
 });
 
+/* ========== PUT/UPDATE A SINGLE ITEM ========== */
+router.put('/:id', (req, res, next) => {
+  const { name, id } = req.body;
+  if (!name) {
+    const err = new Error('Missing `name` in request body');
+    err.status = 400;
+    return next(err);
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    const err = new Error('ID is not valid!');
+    err.status = 400;
+    return next(err);
+  }
+
+  const toUpdate = { name: null };
+
+  if (name) {
+    toUpdate.name = name;
+  }
+
+  Tag
+    .findByIdAndUpdate(req.params.id,
+      { $set: toUpdate },
+      { new: true }
+    )
+    .then(updatedTags => res.status(204).json(updatedTags))
+    .catch(err => {
+      next(err);
+    })
+});
+
 module.exports = router;
