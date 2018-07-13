@@ -47,7 +47,8 @@ router.post('/', (req, res, next) => {
   Note
     .create({
       title: req.body.title,
-      content: req.body.content
+      content: req.body.content,
+      folderId: req.body.folderId
     })
     .then(newNote => res.status(201).json(newNote))
     .catch(err => {
