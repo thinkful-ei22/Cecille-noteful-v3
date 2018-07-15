@@ -19,7 +19,10 @@ describe('Hook Functions', function() {
   });
 
   beforeEach(function () {
-    return Folder.insertMany(seedFolders);
+    return Promise.all([
+      Folder.insertMany(seedFolders),
+      Folder.createIndexes()
+    ])
   });
 
   afterEach(function () {
