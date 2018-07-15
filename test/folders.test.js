@@ -82,27 +82,27 @@ describe('Hook Functions', function() {
         'name': 'Travel'
       };
 
-      let res;
+      let body;
       // 1) First, call the API
       return chai.request(app)
         .post('/api/folders')
         .send(newItem)
-        .then(function (_res) {
-          res = _res;
+        .then(function (res) {
+          body = res.body;
           expect(res).to.have.status(201);
           //expect(res).to.have.header('location');
           expect(res).to.be.json;
-          expect(res.body).to.be.a('object');
-          expect(res.body).to.have.keys('id', 'name', 'createdAt', 'updatedAt');
+          expect(body).to.be.a('object');
+          expect(body).to.have.keys('id', 'name', 'createdAt', 'updatedAt');
           // 2) then call the database
-          return Folder.findById(res.body.id);
+          return Folder.findById(body.id);
         })
         // 3) then compare the API response to the database results
         .then(data => {
-          expect(res.body.id).to.equal(data.id);
-          expect(res.body.name).to.equal(data.name);
-          expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
-          expect(new Date(res.body.updatedAt)).to.eql(data.updatedAt);
+          expect(body.id).to.equal(data.id);
+          expect(body.name).to.equal(data.name);
+          expect(new Date(body.createdAt)).to.eql(data.createdAt);
+          expect(new Date(body.updatedAt)).to.eql(data.updatedAt);
         });
     });
   });
