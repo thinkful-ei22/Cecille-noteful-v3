@@ -45,7 +45,7 @@ router.get('/:id', (req, res, next) => {
   .findById(req.params.id)
   .populate('tags')
   .then(note => {
-    res.status(200).json(note)
+    res.status(200).json(note.toObject())
   })
   .catch(err => {
     next(err);
